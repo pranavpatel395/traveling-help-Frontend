@@ -24,7 +24,10 @@ import { FaCar, FaUsers, FaRoute, FaUserPlus } from 'react-icons/fa';
 import { useRouter } from 'next/navigation'; // ✅ Correct import for App Router
 
 const TravelingHelpHomepage = () => {
-  
+  const bgGradient = useColorModeValue(
+    'linear(to-br, blue.50, purple.50, pink.50)',
+    'linear(to-br, gray.900, blue.900, purple.900)'
+  );
     const router = useRouter(); // ✅ Initialize router hook
 
   const cardBg = useColorModeValue('white', 'gray.800');
@@ -40,7 +43,7 @@ const handleDriverClick = () => {
 };
 
   return (
-    <Box minH="100vh" bgGradient={"linear(to-br, blue.50, purple.50, pink.50)"}>
+    <Box minH="100vh" bgGradient={bgGradient}>
       {/* Navbar */}
       <Box bg="white" boxShadow="sm" position="sticky" top={0} zIndex={10}>
         <Container maxW="7xl">
