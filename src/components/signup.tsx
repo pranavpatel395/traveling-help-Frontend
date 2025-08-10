@@ -211,7 +211,16 @@ const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/register`,
   };
 
   return (
-    <Card maxW="lg" mx="auto" boxShadow="2xl">
+        <Card
+  maxW="md"
+  mx="auto"
+  boxShadow="xl"
+  bg="#00000042
+" // subtle transparency
+  backdropFilter="blur(10px)"     // glass effect
+  border="1px solid rgba(255,255,255,0.1)"
+  borderRadius="xl"
+>
       <CardBody p={8}>
         <VStack spacing={6}>
           <VStack spacing={2} textAlign="center">
@@ -542,7 +551,17 @@ const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
   };
 
   return (
-    <Card maxW="md" mx="auto" boxShadow="2xl">
+    <Card
+  maxW="md"
+  mx="auto"
+  boxShadow="xl"
+  bg="#00000042
+" // subtle transparency
+  backdropFilter="blur(10px)"     // glass effect
+  border="1px solid rgba(255,255,255,0.1)"
+  borderRadius="xl"
+>
+
       <CardBody p={8}>
         <VStack spacing={6}>
           <VStack spacing={2} textAlign="center">
