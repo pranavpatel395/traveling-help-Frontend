@@ -654,7 +654,7 @@ const DriverAuthPage = () => {
   return (
     <Box minH="100vh" bgGradient={bgGradient}>
       {/* Header */}
-      <Box bg="white" boxShadow="sm">
+      <Box bg="#08080859" boxShadow="sm">
         <Container maxW="7xl">
           <Flex h={16} alignItems="center" justifyContent="space-between">
             <Heading

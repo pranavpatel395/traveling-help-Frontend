@@ -445,7 +445,7 @@ const handleDeletePost = async () => {
   return (
     <Box minH="100vh" bgGradient={bgGradient}>
       {/* Header */}
-      <Box bg="white" boxShadow="sm" position="sticky" top={0} zIndex={10}>
+      <Box bg="#08080859" boxShadow="sm" position="sticky" top={0} zIndex={10}>
         <Container maxW="7xl">
           <Flex h={16} alignItems="center" justifyContent="space-between">
             <HStack spacing={4}>

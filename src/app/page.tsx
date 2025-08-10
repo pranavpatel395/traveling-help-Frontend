@@ -45,7 +45,7 @@ const handleDriverClick = () => {
   return (
     <Box minH="100vh" bgGradient={bgGradient}>
       {/* Navbar */}
-      <Box bg="white" boxShadow="sm" position="sticky" top={0} zIndex={10}>
+      <Box bg="#08080859" boxShadow="sm" position="sticky" top={0} zIndex={10}>
         <Container maxW="7xl">
           <Flex h={16} alignItems="center" justifyContent="space-between">
             <Heading
