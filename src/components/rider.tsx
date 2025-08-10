@@ -120,29 +120,30 @@ const modalCardBg = useColorModeValue('gray.50', 'gray.700');
   const rideSummaryCardBg = useColorModeValue('gray.50', 'gray.700');
 
   const fetchRides = async (page = 1, from = '', to = '') => {
-    try {
-      setLoading(true);
-      let url = `http://localhost:5000/api/posts?page=${page}&limit=10`;
-      
-      if (from) url += `&from=${encodeURIComponent(from)}`;
-      if (to) url += `&to=${encodeURIComponent(to)}`;
+  try {
+    setLoading(true);
+    let url = `${process.env.NEXT_PUBLIC_API_URL}/posts?page=${page}&limit=10`;
+    
+    if (from) url += `&from=${encodeURIComponent(from)}`;
+    if (to) url += `&to=${encodeURIComponent(to)}`;
 
-      const response = await fetch(url);
-      const data: ApiResponse = await response.json();
+    const response = await fetch(url);
+    const data: ApiResponse = await response.json();
 
-      if (data.success) {
-        setPosts(data.data.posts);
-        setPagination(data.data.pagination);
-        setError(null);
-      } else {
-        setError('Failed to fetch rides');
-      }
-    } catch (err) {
-      setError('Unable to connect to server. Please try again later.');
-    } finally {
-      setLoading(false);
+    if (data.success) {
+      setPosts(data.data.posts);
+      setPagination(data.data.pagination);
+      setError(null);
+    } else {
+      setError('Failed to fetch rides');
     }
-  };
+  } catch (err) {
+    setError('Unable to connect to server. Please try again later.');
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   useEffect(() => {
     fetchRides();

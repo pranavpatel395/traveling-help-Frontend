@@ -194,31 +194,32 @@ const DriverDashboard = () => {
   }, []);
 
   // Fetch driver's posts
-  const fetchMyPosts = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('http://localhost:5000/api/posts/driver/my-posts', {
-        headers: getAuthHeaders()
-      });
+ const fetchMyPosts = async () => {
+  try {
+    setLoading(true);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/driver/my-posts`, {
+      headers: getAuthHeaders()
+    });
 
-      const data = await response.json();
-      if (data.success) {
-        setPosts(data.data);
-      } else {
-        throw new Error(data.message);
-      }
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to load your posts',
-        status: 'error',
-        duration: 3000,
-        isClosable: true,
-      });
-    } finally {
-      setLoading(false);
+    const data = await response.json();
+    if (data.success) {
+      setPosts(data.data);
+    } else {
+      throw new Error(data.message);
     }
-  };
+  } catch (error) {
+    toast({
+      title: 'Error',
+      description: 'Failed to load your posts',
+      status: 'error',
+      duration: 3000,
+      isClosable: true,
+    });
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   useEffect(() => {
     if (driver) {
@@ -250,130 +251,131 @@ const DriverDashboard = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  // Create post
-  const handleCreatePost = async () => {
-    if (!validateForm()) return;
+// Create post
+const handleCreatePost = async () => {
+  if (!validateForm()) return;
 
-    setCreateLoading(true);
-    try {
-      const response = await fetch('http://localhost:5000/api/posts', {
-        method: 'POST',
-        headers: getAuthHeaders(),
-        body: JSON.stringify({
-          ...formData,
-          date: new Date(formData.date).toISOString(),
-          time: new Date(`${formData.date}T${formData.time}`).toISOString()
-        }),
-      });
+  setCreateLoading(true);
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({
+        ...formData,
+        date: new Date(formData.date).toISOString(),
+        time: new Date(`${formData.date}T${formData.time}`).toISOString()
+      }),
+    });
 
-      const data = await response.json();
-      if (data.success) {
-        toast({
-          title: 'Post Created!',
-          description: 'Your ride has been posted successfully',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-        });
-        fetchMyPosts();
-        onCreateClose();
-        resetForm();
-      } else {
-        throw new Error(data.message);
-      }
-    } catch (error) {
+    const data = await response.json();
+    if (data.success) {
       toast({
-        title: 'Error',
-        description: 'Failed to create post',
-        status: 'error',
+        title: 'Post Created!',
+        description: 'Your ride has been posted successfully',
+        status: 'success',
         duration: 3000,
         isClosable: true,
       });
-    } finally {
-      setCreateLoading(false);
+      fetchMyPosts();
+      onCreateClose();
+      resetForm();
+    } else {
+      throw new Error(data.message);
     }
-  };
+  } catch (error) {
+    toast({
+      title: 'Error',
+      description: 'Failed to create post',
+      status: 'error',
+      duration: 3000,
+      isClosable: true,
+    });
+  } finally {
+    setCreateLoading(false);
+  }
+};
 
-  // Update post
-  const handleUpdatePost = async () => {
-    if (!validateForm() || !selectedPost) return;
+// Update post
+const handleUpdatePost = async () => {
+  if (!validateForm() || !selectedPost) return;
 
-    setCreateLoading(true);
-    try {
-      const response = await fetch(`http://localhost:5000/api/posts/${selectedPost._id}`, {
-        method: 'PUT',
-        headers: getAuthHeaders(),
-        body: JSON.stringify({
-          ...formData,
-          date: new Date(formData.date).toISOString(),
-          time: new Date(`${formData.date}T${formData.time}`).toISOString()
-        }),
-      });
+  setCreateLoading(true);
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${selectedPost._id}`, {
+      method: 'PUT',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({
+        ...formData,
+        date: new Date(formData.date).toISOString(),
+        time: new Date(`${formData.date}T${formData.time}`).toISOString()
+      }),
+    });
 
-      const data = await response.json();
-      if (data.success) {
-        toast({
-          title: 'Post Updated!',
-          description: 'Your ride has been updated successfully',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-        });
-        fetchMyPosts();
-        onEditClose();
-        resetForm();
-      } else {
-        throw new Error(data.message);
-      }
-    } catch (error) {
+    const data = await response.json();
+    if (data.success) {
       toast({
-        title: 'Error',
-        description: 'Failed to update post',
-        status: 'error',
+        title: 'Post Updated!',
+        description: 'Your ride has been updated successfully',
+        status: 'success',
         duration: 3000,
         isClosable: true,
       });
-    } finally {
-      setCreateLoading(false);
+      fetchMyPosts();
+      onEditClose();
+      resetForm();
+    } else {
+      throw new Error(data.message);
     }
-  };
+  } catch (error) {
+    toast({
+      title: 'Error',
+      description: 'Failed to update post',
+      status: 'error',
+      duration: 3000,
+      isClosable: true,
+    });
+  } finally {
+    setCreateLoading(false);
+  }
+};
 
-  // Delete post
-  const handleDeletePost = async () => {
-    if (!deletePostId) return;
+// Delete post
+const handleDeletePost = async () => {
+  if (!deletePostId) return;
 
-    try {
-      const response = await fetch(`http://localhost:5000/api/posts/${deletePostId}`, {
-        method: 'DELETE',
-        headers: getAuthHeaders()
-      });
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/posts/${deletePostId}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders()
+    });
 
-      const data = await response.json();
-      if (data.success) {
-        toast({
-          title: 'Post Deleted!',
-          description: 'Your ride post has been deleted successfully',
-          status: 'success',
-          duration: 3000,
-          isClosable: true,
-        });
-        fetchMyPosts();
-      } else {
-        throw new Error(data.message);
-      }
-    } catch (error) {
+    const data = await response.json();
+    if (data.success) {
       toast({
-        title: 'Error',
-        description: 'Failed to delete post',
-        status: 'error',
+        title: 'Post Deleted!',
+        description: 'Your ride post has been deleted successfully',
+        status: 'success',
         duration: 3000,
         isClosable: true,
       });
-    } finally {
-      setDeletePostId(null);
-      onDeleteClose();
+      fetchMyPosts();
+    } else {
+      throw new Error(data.message);
     }
-  };
+  } catch (error) {
+    toast({
+      title: 'Error',
+      description: 'Failed to delete post',
+      status: 'error',
+      duration: 3000,
+      isClosable: true,
+    });
+  } finally {
+    setDeletePostId(null);
+    onDeleteClose();
+  }
+};
+
 
   // Helper functions
   const resetForm = () => {
@@ -917,7 +919,7 @@ const PostForm = ({
           </InputLeftElement>
           <Input
             name="whatsAppNumber"
-            placeholder="WhatsApp number (if different)"
+            placeholder="WhatsApp number"
             value={formData.whatsAppNumber}
             onChange={handleInputChange}
           />
